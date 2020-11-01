@@ -16,7 +16,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/{userId}", produces = {
-            MediaType.APPLICATION_XML_VALUE,
+
             MediaType.APPLICATION_JSON_VALUE
             })
     public UserRest getUser(@PathVariable String userId){
