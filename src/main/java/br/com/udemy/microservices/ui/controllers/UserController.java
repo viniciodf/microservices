@@ -1,7 +1,10 @@
 package br.com.udemy.microservices.ui.controllers;
 
+import br.com.udemy.microservices.ui.model.request.UserDetailsRequestModel;
 import br.com.udemy.microservices.ui.model.response.UserRest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,22 +19,24 @@ public class UserController {
     }
 
     @GetMapping(value = "/{userId}", produces = {
-
             MediaType.APPLICATION_JSON_VALUE
             })
-    public UserRest getUser(@PathVariable String userId){
+    public ResponseEntity<UserRest> getUser(@PathVariable String userId){
         UserRest userRest = new UserRest();
         userRest.setEmail("teste@gmail.com");
         userRest.setFirstName("Vinicio");
         userRest.setLastName("Ferreira");
-        return userRest;
+        return new ResponseEntity<UserRest>(userRest, HttpStatus.OK);
 
     }
 
-    @PostMapping
-    public String createUser(){
-        return "create user";
-
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity createUser(@RequestBody UserDetailsRequestModel userDetailsRequestModel){
+        UserRest userRest = new UserRest();
+        userRest.setEmail(userDetailsRequestModel.getEmail());
+        userRest.setFirstName(userDetailsRequestModel.getFirstName());
+        userRest.setLastName(userDetailsRequestModel.getLastName());
+        return new ResponseEntity<UserRest>(userRest, HttpStatus.OK);
     }
 
     @PutMapping
