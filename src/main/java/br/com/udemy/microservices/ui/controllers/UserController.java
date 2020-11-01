@@ -1,5 +1,6 @@
 package br.com.udemy.microservices.ui.controllers;
 
+import br.com.udemy.microservices.ui.model.response.UserRest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -7,14 +8,19 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @GetMapping
-    public String getUsers(@RequestParam("page") int page,
-                           @RequestParam("limit") int limit){
-        return "get users with page = " + page + " and limite = " + limit;
+    public String getUsers(@RequestParam(value = "page", defaultValue = "1") int page,
+                           @RequestParam(value = "limit", defaultValue = "50") int limit,
+                           @RequestParam(value = "sort", defaultValue = "desc") String sort){
+        return "get users with page = " + page + " and limit = " + limit + " and sort = " + sort;
     }
 
     @GetMapping("/{userId}")
-    public String getUser(){
-        return "get users";
+    public UserRest getUser(@PathVariable String userId){
+        UserRest userRest = new UserRest();
+        userRest.setEmail("teste@gmail.com");
+        userRest.setFirstName("Vinicio");
+        userRest.setLastName("Ferreira");
+        return userRest;
 
     }
 
@@ -30,7 +36,8 @@ public class UserController {
     }
 
     @DeleteMapping
-    public void deleteUser(){
+    public String deleteUser(){
+        return "delete user";
 
     }
 }
