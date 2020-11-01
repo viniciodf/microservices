@@ -1,6 +1,7 @@
 package br.com.udemy.microservices.ui.controllers;
 
 import br.com.udemy.microservices.ui.model.response.UserRest;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,7 +15,10 @@ public class UserController {
         return "get users with page = " + page + " and limit = " + limit + " and sort = " + sort;
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping(value = "/{userId}", produces = {
+            MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_JSON_VALUE
+            })
     public UserRest getUser(@PathVariable String userId){
         UserRest userRest = new UserRest();
         userRest.setEmail("teste@gmail.com");
