@@ -1,5 +1,6 @@
 package br.com.udemy.microservices.ui.controllers;
 
+import br.com.udemy.microservices.exceptions.UserServiceException;
 import br.com.udemy.microservices.ui.model.request.UpdateUserDetailsRequestModel;
 import br.com.udemy.microservices.ui.model.request.UserDetailsRequestModel;
 import br.com.udemy.microservices.ui.model.response.UserRest;
