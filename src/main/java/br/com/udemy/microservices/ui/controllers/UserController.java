@@ -1,9 +1,13 @@
 package br.com.udemy.microservices.ui.controllers;
 
 import br.com.udemy.microservices.exceptions.UserServiceException;
+import br.com.udemy.microservices.shared.Utils;
 import br.com.udemy.microservices.ui.model.request.UpdateUserDetailsRequestModel;
 import br.com.udemy.microservices.ui.model.request.UserDetailsRequestModel;
 import br.com.udemy.microservices.ui.model.response.UserRest;
+import br.com.udemy.microservices.userservice.UserService;
+import br.com.udemy.microservices.userservice.impl.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +23,9 @@ import java.util.UUID;
 public class UserController {
 
     Map<String, UserRest> users;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping
     public String getUsers(@RequestParam(value = "page", defaultValue = "1") int page,
@@ -43,15 +50,8 @@ public class UserController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createUser(@Valid @RequestBody UserDetailsRequestModel userDetailsRequestModel){
-        UserRest returnValue = new UserRest();
-        returnValue.setEmail(userDetailsRequestModel.getEmail());
-        returnValue.setFirstName(userDetailsRequestModel.getFirstName());
-        returnValue.setLastName(userDetailsRequestModel.getLastName());
-        if(users == null) users = new HashMap<>();
-        String userId = UUID.randomUUID().toString();
-        returnValue.setUserId(userId);
-        users.put(userId, returnValue);
 
+        UserRest returnValue = userService.createUser(userDetailsRequestModel);
         return new ResponseEntity<UserRest>(returnValue, HttpStatus.OK);
     }
 
